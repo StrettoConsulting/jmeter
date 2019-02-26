@@ -1,0 +1,11 @@
+# do not copy these files when COPY is used in dockerfiles
+.git
+.gitignore
+.gitattributes
+Dockerfile
+.env
+*.md
+.idea
+*.iml
+docker-compose.yaml
+*.jmx

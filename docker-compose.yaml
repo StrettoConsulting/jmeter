@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  jmeter:
+    image: stretto/jmeter
+    volumes:
+      # Path where output is saved
+      - ./output:/opt/output
+      # Project file
+      - ./project.jmx:/project.jmx
+    command: -t /project.jmx
+    environment:
+      HEAP: "${JMETER_HEAP:--Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m}"
+      DASHBOARD: "${JMETER_DASHBOARD:-0}"

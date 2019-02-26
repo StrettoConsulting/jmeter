@@ -1,0 +1,3 @@
+# The following files MUST have LF Unix based line endings and not be treated as binary
+*.sh text eol=lf
+*.sh diff
