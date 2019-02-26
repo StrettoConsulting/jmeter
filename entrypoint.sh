@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 # If "jmeter" was passed as the first arg, remove it
 for arg do
