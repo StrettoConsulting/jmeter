@@ -5,6 +5,14 @@ The image's `latest` tag currently uses jmeter version 5.1.
 
 For more information on how to use jmeter via CLI please see the [jmeter docs](https://jmeter.apache.org/usermanual/get-started.html).
 
+## Default Option(s)
+
+#### Option: `-n` (no-gui)
+You do not need to specify the `-n` flag for the `jmeter` command.  As this image is intended to be a CLI tool, the `-n` flag will be added by default to all commands.
+
+#### Dashboard Options
+If you provide the `DASHBOARD=1` environment variable, all options related to writing the dashboard will be set automatically.  See the "Output/Reports" section for additional detail and examples.
+
 ## Loading your project file
 To pass your project file (`.jmx` file) to jmeter you need to load this file as a volume via the `docker` command and then include the `-t [file]` options when running.  For example, if my project file is called `my-project.jmx` I would run the following to run the project (assuming no other options):
 
