@@ -19,7 +19,10 @@ RUN apk add --no-cache \
 # Download jmeter and install
 RUN curl --silent --fail --location --retry 3 --output /tmp/jmeter.tgz --url http://apache.osuosl.org/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz > /tmp/jmeter.tgz \
     && tar -xzf /tmp/jmeter.tgz -C /opt \
-    && rm /tmp/jmeter.tgz \
+    && rm /tmp/jmeter.tgz
+
+# Make output directory and link within jmeter home
+RUN mkdir -p /opt/output \
     && ln -s /opt/output ${JMETER_HOME}/output
 
 # Set up entrypoint
@@ -27,4 +30,3 @@ COPY ./entrypoint.sh ${JMETER_BIN}/entrypoint
 
 # Execute the default run command
 ENTRYPOINT ["entrypoint"]
-CMD ["--help"]

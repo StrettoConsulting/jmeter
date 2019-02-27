@@ -13,6 +13,9 @@ You do not need to specify the `-n` flag for the `jmeter` command.  As this imag
 #### Dashboard Options
 If you provide the `DASHBOARD=1` environment variable, all options related to writing the dashboard will be set automatically.  See the "Output/Reports" section for additional detail and examples.
 
+#### Default Project File
+If you do not specify the `-t [filepath]` option (see section on "Loading your project file"), the container will look to see if a file has been loaded to `/project.jmx`.  See additional information under "Loading your project file".
+
 ## Loading your project file
 To pass your project file (`.jmx` file) to jmeter you need to load this file as a volume via the `docker` command and then include the `-t [file]` options when running.  For example, if my project file is called `my-project.jmx` I would run the following to run the project (assuming no other options):
 
@@ -26,13 +29,15 @@ Windows
 docker run -v %cd%/my-project.jmx:/my-project.jmx stretto/jmeter -t /my-project.jmx
 ```
 
+If you do not specify the `-t [filepath]` flag, the container will also look for a project file named `/project.jmx`. So alternatively, you may use a volume mount to load your project file to `/project.jmx` and do not need to provide the `-t [filepath]` flag.
+
 ## Output / Reports
 To make things easy, if you simply set the environment variable `DASHBOARD=1`, the container will set all of the necessary flags to write a dashboard to `/opt/output/dashboard`.  
 To view output files you must include a volume reference pointed to `/opt/output`.
 
 For example, to save a results dashboard use the following command (Windows users may replace `$(pwd)` with `%cd%`:
 ```bash
-docker run -e DASHBOARD=1 -v $(pwd)/output:/opt/output -v $(pwd)/project.jmx:stretto/jmeter [options]...
+docker run -e DASHBOARD=1 -v $(pwd)/output:/opt/output -v $(pwd)/project.jmx:/project.jmx stretto/jmeter [options]...
 ```
 The dashboard may then be found in `./output/dashboard`
 
@@ -43,9 +48,26 @@ The jmeter logfile will be written to `/opt/output/jmeter.log`
 ## Usage Examples
 These examples are not intended to be comprehensive examples of the jmeter cli, but are intended to demonstrate how to use this image.
 
+_Note:_ all examples use the Linux convention for resolving the current directory to an absolute path (i.e. $(pwd) or \`pwd\`).  Windows users should be able to replace this with %cd%
+
 Run a basic project file named `project.jmx` (do not save output/reports):
 ```bash
+docker run -v $(pwd)/project.jmx:/project.jmx stretto/jmeter
+```
 
+Run a project file with properties passed to the project:
+```bash
+docker run -v $(pwd)/project.jmx:/project.jmx stretto/jmeter -Jhost=example.com -Jsomething=else
+```
+
+Write to a custom log file
+```bash
+docker run -v $(pwd)/project.jmx:/project.jmx -v $(pwd)/output:/opt/output stretto/jmeter -l /opt/output/custom.log
+```
+
+Load an entire directory of project files that need to be included in a parent test file (parent.jmx):
+```bash
+docker run -v $(pwd)/project-files:/project-files stretto/jmeter -t /project-files/parent.jmx
 ```
 ## Using Docker Compose
 Make it easy to run your test file by using the example `docker-compose.yaml` and directories provided in this repo.

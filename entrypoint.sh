@@ -11,8 +11,8 @@ done
 # Get options the user passed in
 OPTIONS="${@}"
 
-# If nothing was passed in, or --help was passed in, display the jmeter help
-if [[ -z "${OPTIONS}" ]] || [[ "${OPTIONS}" == *"--help"* ]]; then
+# --help was passed in, display the jmeter help
+if [[ "${OPTIONS}" == *"--help"* ]]; then
     jmeter --help && exit 0
 fi
 
@@ -25,6 +25,14 @@ DEFAULT_OPTIONS="-n -j ${OUTPUT_DIR}/jmeter.log"
 # Look for default project file if one wasn't provided
 PROJECT_FILE="/project.jmx"
 if [[ "${OPTIONS}" != *"-t "* ]]; then
+    # See if they provided a default file via volume mount, if not, exit with the default help message
+    if [[ ! -f ${PROJECT_FILE} ]] && [[ -z "${OPTIONS}" ]]; then
+        jmeter --help && exit 0
+    fi
+    if [[ ! -f ${PROJECT_FILE} ]]; then
+        echo -e "A project file could not be found.\nPlease be sure to mount your project file to ${PROJECT_FILE},\nor mount to an alternate location and include the -t [filepath] option"
+        exit 1
+    fi
     DEFAULT_OPTIONS="${DEFAULT_OPTIONS} -t ${PROJECT_FILE}"
 fi
 
