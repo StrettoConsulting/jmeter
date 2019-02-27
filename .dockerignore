@@ -9,3 +9,4 @@ Dockerfile
 *.iml
 docker-compose.yaml
 *.jmx
+output/
