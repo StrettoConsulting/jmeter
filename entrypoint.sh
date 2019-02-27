@@ -42,5 +42,12 @@ if [[ "${DASHBOARD}" = "1" ]]; then
     DEFAULT_OPTIONS="${DEFAULT_OPTIONS} -e -f -o ${OUTPUT_DIR}/dashboard -l ${OUTPUT_DIR}/log.jtl"
 fi
 
-jmeter ${DEFAULT_OPTIONS} ${OPTIONS}
+# See if we should fail on error
+if [[ "${FAIL_ON_ERROR:-0}" != "1" ]]; then
+    jmeter ${DEFAULT_OPTIONS} ${OPTIONS} || exit 1
+    exit 0
+fi
 
+exec 5>&1
+RESULTS=$(jmeter ${DEFAULT_OPTIONS} ${OPTIONS} | tee >(cat - >&5))
+(echo ${RESULTS} | grep -Eq 'summary =.*Err:.*0 \(0\.00\%\)') && exit 0 || exit 1

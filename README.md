@@ -82,6 +82,9 @@ Simply clone this repo and run:
 docker-compose run jmeter [options]...
 ```
 
+## "Fail" on error
+If you would like the container to return a non-zero (i.e. >0) exit code if the test encounters any errors, simply set the environment variable `FAIL_ON_ERROR=1`.  If set, once the test has completed, the summary line will be scanned and if the `Err:` is not equal to `0 (0.00%)` the container will exit with code `1`.
+
 ## Heap Size
 If you need to alter the Java Heap value simply set the `HEAP` environment variable when running.  For example:
 ```bash

@@ -12,3 +12,4 @@ services:
     environment:
       HEAP: "${JMETER_HEAP:--Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m}"
       DASHBOARD: "${JMETER_DASHBOARD:-0}"
+      FAIL_ON_ERROR: "${JMETER_FAIL_ON_ERROR:-0}"
