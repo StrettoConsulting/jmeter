@@ -28,5 +28,7 @@ RUN mkdir -p /opt/output \
 # Set up entrypoint
 COPY ./entrypoint.sh ${JMETER_BIN}/entrypoint
 
+EXPOSE 4445
+
 # Execute the default run command
 ENTRYPOINT ["entrypoint"]

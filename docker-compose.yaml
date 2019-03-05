@@ -9,6 +9,8 @@ services:
       # Project file
       - ./project.jmx:/project.jmx
     command: -t /project.jmx
+    ports:
+      - ${JMETER_PORT:-4445}:4445
     environment:
       HEAP: "${JMETER_HEAP:--Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m}"
       DASHBOARD: "${JMETER_DASHBOARD:-0}"

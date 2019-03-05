@@ -45,6 +45,14 @@ If you are using the `docker-compose.yaml` file in this repo, you may set the `J
 
 The jmeter logfile will be written to `/opt/output/jmeter.log`
 
+## Communication via Port Listener
+Non-gui jmeter will listen on a port (default is 4445, which should always be the case for containers built on this image) for shutdown commands.  If you are running a test where you need to send a shutdown command via the port you will need to map a port on your local host to port 4445 in the container.
+
+For example, the following command will run a test file called "my-project.jmx" and will map port 4040 on my local host to 4445 in the container, allowing me to send one of the stop/shutdown commands to the container through port 4040.
+```bash
+docker run -p 4040:4445 -v %cd%/my-project.jmx:/project.jmx stretto/jmeter
+```
+
 ## Usage Examples
 These examples are not intended to be comprehensive examples of the jmeter cli, but are intended to demonstrate how to use this image.
 
