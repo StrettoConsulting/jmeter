@@ -1,7 +1,7 @@
 # jmeter Docker Image
 Use this image to quickly / easily run jmeter tests via CLI.
 
-The image's `latest` tag currently uses jmeter version 5.1.
+The image's `latest` tag currently uses jmeter version 5.4.
 
 For more information on how to use jmeter via CLI please see the [jmeter docs](https://jmeter.apache.org/usermanual/get-started.html).
 

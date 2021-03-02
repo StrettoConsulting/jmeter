@@ -1,7 +1,7 @@
-FROM alpine:3.9
+FROM alpine:latest
 
 # Split these up so the prior ones are available to the next as they build on one another
-ENV JMETER_VERSION=5.1
+ENV JMETER_VERSION=5.4.1
 ENV JMETER_HOME=/opt/apache-jmeter-${JMETER_VERSION}
 ENV JMETER_BIN=${JMETER_HOME}/bin
 ENV PATH="${PATH}:${JMETER_BIN}"
